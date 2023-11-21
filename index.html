@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+  <link rel="stylesheet" href="style.css">
+  <title>Guessing Game</title>
+</head>
+<body>
+  <h1>Two-Player Guessing Game</h1>
+
+  <p>Player 1: <input type="number" id="player1Guess" min="1" max="20"></p>
+  <p>Player 2: <input type="number" id="player2Guess" min="1" max="20"></p>
+  <button onclick="playRound()">Submit Guesses</button>
+
+  <div id="result"></div>
+  <div id="score">Player 1 Score: <span id="player1Score">0</span> | Player 2 Score: <span id="player2Score">0</span></div>
+  <div id="winner"></div>
+
+  <script>
+    let player1Score = 0;
+    let player2Score = 0;
+
+    function playRound() {
+      const randomNumber = Math.floor(Math.random() * 20) + 1;
+      
+      const player1Guess = document.getElementById("player1Guess").value;
+      const player2Guess = document.getElementById("player2Guess").value;
+
+      const diffPlayer1 = Math.abs(randomNumber - player1Guess);
+      const diffPlayer2 = Math.abs(randomNumber - player2Guess);
+
+      let result = "";
+
+      if (diffPlayer1 < diffPlayer2) {
+        result = "Player 1 wins!";
+        player1Score++;
+      } else if (diffPlayer2 < diffPlayer1) {
+        result = "Player 2 wins!";
+        player2Score++;
+      } else {
+        result = "It's a tie!";
+      }
+
+      document.getElementById("result").innerHTML = `The correct number was ${randomNumber}. ${result}`;
+      document.getElementById("player1Score").innerText = player1Score;
+      document.getElementById("player2Score").innerText = player2Score;
+
+      if (player1Score >= 3 || player2Score >= 3) {
+        displayWinner();
+      }
+    }
+
+    function displayWinner() {
+      const winner = player1Score > player2Score ? "Player 1" : "Player 2";
+      document.getElementById("winner").innerText = `Game over! ${winner} wins the match!`;
+    }
+  </script>
+
+</body>
+</html>
